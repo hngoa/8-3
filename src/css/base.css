@@ -1,0 +1,123 @@
+/* ══════════════════════════════════
+   base.css – Variables, globals & responsive foundations
+   Breakpoints:
+     xs:  < 480px   (small phone)
+     sm:  480–767px (phone landscape / large phone)
+     md:  768–1023px (tablet)
+     lg:  1024px+   (desktop)
+   ══════════════════════════════════ */
+
+:root {
+  --pink-lightest: #fff0f5;
+  --pink-light:    #ffd6e7;
+  --pink:          #ff89b5;
+  --pink-deep:     #e0457b;
+  --pink-dark:     #b5195c;
+  --rose:          #ff6b9d;
+  --blush:         #ffb3cc;
+  --cream:         #fff8f0;
+  --gold:          #f0c060;
+  --gold-light:    #ffe49a;
+  --green-leaf:    #5a9950;
+  --text-dark:     #3a1a2e;
+  --text-mid:      #7a3f5c;
+  --shadow-pink:   rgba(224, 69, 123, 0.3);
+
+  --font-display: 'Dancing Script', cursive;
+  --font-serif:   'Playfair Display', Georgia, serif;
+  --font-body:    'Nunito', sans-serif;
+
+  /* Responsive envelope size tokens */
+  --env-w: clamp(200px, 55vw, 360px);
+  --env-h: clamp(145px, 38vw, 260px);
+  --env-seal: clamp(40px, 10vw, 64px);
+}
+
+/* ── Tablet ── */
+@media (min-width: 768px) {
+  :root {
+    --env-w: clamp(280px, 38vw, 360px);
+    --env-h: clamp(200px, 27vw, 260px);
+    --env-seal: clamp(48px, 7vw, 64px);
+  }
+}
+
+/* ── Desktop ── */
+@media (min-width: 1024px) {
+  :root {
+    --env-w: 360px;
+    --env-h: 260px;
+    --env-seal: 64px;
+  }
+}
+
+/* ── Landscape phone ── */
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --env-w: clamp(160px, 32vw, 260px);
+    --env-h: clamp(110px, 22vw, 185px);
+    --env-seal: clamp(32px, 6vw, 48px);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: var(--font-body);
+  background: var(--pink-lightest);
+  /* Prevent text size inflation on mobile */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.layer {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.layer.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* ── Transition overlay ── */
+.transition-overlay {
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center,
+    var(--pink-deep) 0%, var(--pink-dark) 60%, #7a0033 100%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.transition-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.transition-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 5vw, 4rem);
+  color: #fff;
+  text-align: center;
+  padding: 0 1rem;
+  text-shadow: 0 0 30px rgba(255,180,200,.8);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.5s 0.3s ease, transform 0.5s 0.3s ease;
+  z-index: 2;
+}
+.transition-overlay.active .transition-text {
+  opacity: 1; transform: scale(1);
+}
+
+/* Scrollbar hide */
+::-webkit-scrollbar { display: none; }
+/* Touch tap highlight */
+* { -webkit-tap-highlight-color: transparent; }

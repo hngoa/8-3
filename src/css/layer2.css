@@ -1,0 +1,298 @@
+/* ══════════════════════════════════
+   layer2.css – 3D Scene + Game + Chat (Responsive)
+   ══════════════════════════════════ */
+
+/* ── Canvas & base ── */
+#layer2 {
+  background: linear-gradient(160deg, #1a0a14 0%, #2e0d22 40%, #1a0a14 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+/* three-canvas đã thay bằng model-viewer */
+
+/* ── Falling petals ── */
+#fallingPetals {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+.petal {
+  position: absolute;
+  top: -60px;
+  font-size: clamp(10px, 2.5vw, 28px);
+  opacity: 0;
+  animation: petalFall linear infinite;
+  user-select: none;
+}
+@keyframes petalFall {
+  0%   { opacity:0; transform: translateY(0) rotate(0deg) translateX(0); }
+  5%   { opacity:.9; }
+  90%  { opacity:.7; }
+  100% { opacity:0; transform: translateY(110vh) rotate(720deg) translateX(50px); }
+}
+
+/* ── Chat bubbles ── */
+#chatBubbles {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 15;
+  overflow: hidden;
+}
+.chat-bubble {
+  position: absolute;
+  top: -140px;
+  max-width: clamp(150px, 45vw, 280px);
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,180,210,.35);
+  border-radius: 16px 16px 16px 4px;
+  padding: clamp(.5rem, 1.5vw, .8rem) clamp(.6rem, 2vw, 1.1rem);
+  box-shadow: 0 8px 28px rgba(224,69,123,.25);
+  animation: bubbleDrop linear forwards;
+}
+.chat-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -7px; left: 12px;
+  border: 7px solid transparent;
+  border-top-color: rgba(255,180,210,.35);
+}
+.bubble-header {
+  display: flex; align-items: center; gap: .4rem;
+  margin-bottom: .35rem;
+}
+.bubble-avatar {
+  width: clamp(22px, 4vw, 28px);
+  height: clamp(22px, 4vw, 28px);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.bubble-name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(.65rem, 1.5vw, .75rem);
+  color: var(--pink-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+.bubble-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(.72rem, 1.8vw, .95rem);
+  color: #fff;
+  line-height: 1.5;
+}
+@keyframes bubbleDrop {
+  0%   { opacity:0; transform: translateY(0) scale(.8); }
+  8%   { opacity:1; transform: translateY(0) scale(1); }
+  80%  { opacity:1; }
+  100% { opacity:0; transform: translateY(110vh) scale(.9); }
+}
+
+/* ── Title overlay ── */
+.l2-title {
+  position: absolute;
+  top: clamp(.8rem, 2.5vh, 2rem);
+  left: 50%; transform: translateX(-50%);
+  text-align: center;
+  z-index: 30;
+  pointer-events: none;
+  width: 90%;
+  max-width: 700px;
+}
+.l2-title h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 5.5vw, 3.5rem);
+  color: #fff;
+  text-shadow: 0 0 30px var(--pink), 0 0 60px rgba(255,100,160,.4);
+  animation: titleGlow 3s ease-in-out infinite;
+  line-height: 1.2;
+}
+@keyframes titleGlow {
+  0%,100% { text-shadow: 0 0 30px var(--pink), 0 0 60px rgba(255,100,160,.4); }
+  50%     { text-shadow: 0 0 50px var(--pink), 0 0 100px rgba(255,100,160,.6); }
+}
+.l2-title p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--pink-light);
+  font-size: clamp(.7rem, 2vw, 1.1rem);
+  margin-top: .3rem;
+  padding: 0 .5rem;
+}
+
+/* ── Bootstrap Icon overrides ── */
+.catch-hint i           { vertical-align: middle; margin-right: .2rem; }
+.caught-emoji i {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  color: var(--gold);
+  filter: drop-shadow(0 0 12px var(--gold));
+  animation: trophySpin 1s 0.3s ease both;
+}
+@keyframes trophySpin {
+  from { transform: scale(0) rotate(-180deg); }
+  to   { transform: scale(1) rotate(0deg); }
+}
+.caught-inner p i { vertical-align: middle; color: var(--rose); }
+.l2-title i         { vertical-align: middle; }
+.petal i {
+  display: block;
+  filter: drop-shadow(0 2px 4px currentColor);
+  animation: iconSpin linear infinite;
+  animation-duration: inherit;
+}
+@keyframes iconSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.bubble-avatar i { font-size: clamp(10px, 2vw, 16px); filter: drop-shadow(0 1px 3px currentColor); }
+.bubble-text i   { vertical-align: middle; }
+
+/* ═══════════════════════════════════
+   RESPONSIVE OVERRIDES – Layer 2
+   ═══════════════════════════════════ */
+
+/* ── Small phone (< 480px) ── */
+@media (max-width: 479px) {
+  .chat-bubble {
+    max-width: clamp(140px, 70vw, 220px);
+    padding: .45rem .6rem;
+  }
+  .bubble-name { max-width: 70px; }
+  .l2-title p  { display: none; } /* too cramped */
+  .catch-hint  { font-size: .6rem; }
+  /* Bubbles only on left third to not block envelope */
+  /* (controlled in JS via leftPct) */
+}
+
+/* ── Landscape phone ── */
+@media (max-height: 500px) and (orientation: landscape) {
+  .l2-title {
+    top: .3rem;
+  }
+  .l2-title h1  { font-size: clamp(1rem, 4vw, 1.6rem); }
+  .l2-title p   { display: none; }
+  .chat-bubble  { max-width: clamp(130px, 28vw, 200px); }
+  .caught-inner { padding: .8rem 1.2rem; }
+  .caught-emoji i { font-size: 2rem; }
+  .caught-inner h2 { font-size: clamp(1.2rem, 4vw, 2rem); }
+  /* Fewer petals on small screens handled in JS */
+}
+
+/* ── Tablet (768–1023px) ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .chat-bubble  { max-width: clamp(200px, 36vw, 280px); }
+  .l2-title h1  { font-size: clamp(1.8rem, 4.5vw, 3rem); }
+}
+
+/* ── Large desktop (1440px+) ── */
+@media (min-width: 1440px) {
+  .l2-title h1 { font-size: 3.5rem; }
+  .chat-bubble { max-width: 300px; }
+}
+
+
+/* ══════════════════════════════════
+   model-viewer – Lily 3D reveal
+   ══════════════════════════════════ */
+
+/* Wrapper: căn giữa màn hình, ẩn trước */
+#lilyViewerWrap {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%); /* bắt đầu dưới màn hình */
+  width: clamp(280px, 55vw, 600px);
+  height: clamp(320px, 60vh, 680px);
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+  transition:
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   1.0s ease;
+}
+
+/* Khi được reveal: trượt lên đúng vị trí */
+#lilyViewerWrap.revealed {
+  transform: translateX(-50%) translateY(5%);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* model-viewer element */
+#lilyViewer {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  --poster-color: transparent;
+}
+
+/* Message chúc mừng bên dưới model */
+#lilyMessage {
+  position: absolute;
+  bottom: clamp(.8rem, 2vh, 1.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 25;
+  width: 90%;
+  max-width: 520px;
+  opacity: 0;
+  transition: opacity 1s ease 1.2s; /* delay để chờ hoa trượt lên xong */
+  pointer-events: none;
+}
+#lilyMessage.revealed {
+  opacity: 1;
+}
+#lilyMessage p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(.78rem, 2vw, 1.05rem);
+  color: rgba(255,220,235,.85);
+  line-height: 1.75;
+  text-shadow: 0 2px 12px rgba(0,0,0,.5);
+  margin-bottom: .4rem;
+}
+#lilyMessage strong {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--pink-light);
+  text-shadow: 0 0 18px var(--pink);
+}
+
+/* ── Responsive ── */
+@media (max-width: 479px) {
+  #lilyViewerWrap {
+    width: 92vw;
+    height: 52vh;
+  }
+  #lilyViewerWrap.revealed {
+    transform: translateX(-50%) translateY(2%);
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  #lilyViewerWrap {
+    width: 45vw;
+    height: 80vh;
+  }
+  #lilyViewerWrap.revealed {
+    transform: translateX(-50%) translateY(2%);
+  }
+  #lilyMessage { display: none; }
+}
+
+@media (min-width: 1024px) {
+  #lilyViewerWrap {
+    width: clamp(400px, 42vw, 640px);
+    height: clamp(460px, 65vh, 720px);
+  }
+}
