@@ -10,7 +10,7 @@ const Layer2_3D = (() => {
 
     const mv = document.createElement('model-viewer');
     mv.id              = 'lilyViewer';
-    mv.setAttribute('src', '../assets/lilies.glb');
+    mv.setAttribute('src', 'assets/lilies.glb');
     mv.setAttribute('alt', 'Hoa Lily 3D');
     mv.setAttribute('auto-rotate', '');
     mv.setAttribute('camera-controls', '');
